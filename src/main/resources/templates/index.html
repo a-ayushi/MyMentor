@@ -172,6 +172,10 @@
             });
           });
         }); //  Close DOMContentLoaded function
+		const email = localStorage.getItem("email"); 
+		if(email){
+			localStorage.clear();
+		}
 	</script>
 
 </body>

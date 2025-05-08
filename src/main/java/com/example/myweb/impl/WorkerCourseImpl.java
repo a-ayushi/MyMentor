@@ -157,6 +157,10 @@ public List<WorkerCourse> findAll() {
     return repo.findAll(); // Use the repository to fetch all WorkerCourse entities
 }
 
+    @Override
+    public WorkerCourse getCourseById(int id) {
+		return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Course not found with ID: " + id));}
+
 
 
 }

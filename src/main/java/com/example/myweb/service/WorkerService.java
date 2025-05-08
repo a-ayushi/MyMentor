@@ -34,5 +34,8 @@ public interface WorkerService {
 
     public List<WorkerCourse> findAll();
 
+    public WorkerCourse getCourseById(int id);
+
+
 
 }

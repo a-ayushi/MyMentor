@@ -88,11 +88,21 @@ public class WorkerController {
 			throw new IllegalArgumentException("Course data is required. Please ensure the 'course' part is included in the request.");
 		}
 
+		// Retrieve the existing course to retain the current image if no new file is uploaded
+		WorkerCourse existingCourse = service.getCourseById(id);
+		if (existingCourse == null) {
+			throw new IllegalArgumentException("Course not found with ID: " + id);
+		}
+
 		if (file != null && !file.isEmpty()) {
+			// Save the new file
 			String filename = file.getOriginalFilename();
 			Path savePath = Paths.get("src/main/resources/static/images/" + filename);
 			Files.write(savePath, file.getBytes());
-			updatedCourse.setFileName(filename);
+			updatedCourse.setFileName(filename); // Set the new file name
+		} else {
+			// Retain the existing file name
+			updatedCourse.setFileName(existingCourse.getFileName());
 		}
 
 		return service.updateCourse(id, updatedCourse);

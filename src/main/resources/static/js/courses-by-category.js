@@ -148,4 +148,50 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = "<p>Error loading courses. Please try again later.</p>";
       });
   });
-  
+
+// Load and initialize the AgentInitializer script
+function loadAgentInitializerScript(callback) {
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js';
+  script.onload = callback;
+  script.onerror = () => console.error('Failed to load AgentInitializer script.');
+  document.head.appendChild(script);
+}
+
+window.addEventListener("load", function () {
+  if (window.AgentInitializer) {
+    initializeAgent();
+  } else {
+    loadAgentInitializerScript(() => {
+      if (window.AgentInitializer) {
+        initializeAgent();
+      } else {
+        console.error("AgentInitializer is not defined even after loading the script.");
+      }
+    });
+  }
+});
+
+function initializeAgent() {
+  window.AgentInitializer.init({
+    agentRenderURL: "https://agent.jotform.com/01967d36677575e39022c9b84455fbeab336",
+    rootId: "JotformAgent-01967d36677575e39022c9b84455fbeab336",
+    formID: "01967d36677575e39022c9b84455fbeab336",
+    queryParams: ["skipWelcome=1", "maximizable=1"],
+    domain: "https://www.jotform.com",
+    isDraggable: false,
+    background: "linear-gradient(180deg, #6C73A8 0%, #6C73A8 100%)",
+    buttonBackgroundColor: "#0066C3",
+    buttonIconColor: "#FFFFFF",
+    variant: false,
+    customizations: {
+      "greeting": "Yes",
+      "greetingMessage": "Hi! How can I assist you?",
+      "openByDefault": "No",
+      "pulse": "Yes",
+      "position": "right",
+      "autoOpenChatIn": "0",
+    },
+    isVoice: false,
+  });
+}
