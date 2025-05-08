@@ -18,6 +18,7 @@ services:
         fromDatabase:
           name: mymentor-db
           property: password
+#    runtime:
 
 databases:
   - name: mymentor-db
