@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,9 @@ public class WorkerController {
 	@Autowired
 	private WorkerService service;
 
+	@Value("${file.upload-dir}")
+	private String uploadDir;
+
 	@GetMapping("/workerdashboard")
 	public String workerDashboard(Model model) {
 		if (model.containsAttribute("success")) {
@@ -43,26 +47,30 @@ public class WorkerController {
 		model.addAttribute("WorkerCourse", new WorkerCourse());
 		return "workerdashboard";
 	}
-
 	@PostMapping("/addCourse")
 	public String createCourse(@RequestParam("file") MultipartFile file,
 							   WorkerCourse course,
 							   RedirectAttributes attrs) throws IOException {
-
-
-		// Save the file to static/images directory
+	
+		// Define the directory path
+		Path directoryPath = Paths.get(uploadDir);
+		
+		// Ensure the directory exists
+		if (!Files.exists(directoryPath)) {
+			Files.createDirectories(directoryPath);
+		}
+	
+		// Save the file to the directory
 		String filename = file.getOriginalFilename();
-		String filePath = "/images/" + filename;  // Save the file with a relative path
-
-		// Save the file on disk (inside static/images)
-		Path path = Paths.get("src/main/resources/static/images/" + filename);
-		Files.write(path, file.getBytes());
-
-		// Set the file path in course object
-		course.setFileName(filePath);
-
-		service.addCourse(course, file); // persist
-
+		Path filePath = directoryPath.resolve(filename);
+		Files.write(filePath, file.getBytes());
+	
+		// Set the file path in the course object
+		course.setFileName(filename);
+	
+		// Persist the course
+		service.addCourse(course, file);
+	
 		// Add success message
 		attrs.addFlashAttribute("success", "Upload successful ✅");
 		return "redirect:/workerdashboard"; // Redirect to the dashboard
