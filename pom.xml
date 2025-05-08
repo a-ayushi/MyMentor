@@ -44,14 +44,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		<profiles>
-    <profile>
-        <id>docker-build</id>
-        <properties>
-            <skipTests>true</skipTests>
-        </properties>
-    </profile>
-</profiles>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
