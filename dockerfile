@@ -1,22 +1,20 @@
 # 1) Build stage
-FROM maven:3.9.4-eclipse-temurin-17-slim AS build
-
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /build
 
-# 1a) Copy only pom.xml and download dependencies
+# Pre-fetch dependencies (won’t re-download on source changes)
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# 1b) Copy source and build (skip tests)
+# Copy your code and build (skip tests if they’re still red)
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
 # 2) Runtime stage
 FROM eclipse-temurin:17-jdk-slim
-
 WORKDIR /app
 
-# Copy the fat JAR from the build stage
+# Grab the fat-jar from build stage
 COPY --from=build /build/target/*.jar app.jar
 
 ENV PORT=8080
