@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account</title>
+  <link rel="stylesheet" href="/css/my-account.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+</head>
+
+<body>
+<header>
+  <nav>
+    <div class="logo">My Mentor</div>
+    <ul id="nav-links">
+      <li><a href="#" id="dashboardLink">Dashboard</a></li>
+      <li>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+          <button type="submit" id="logout" class="nav-link-style" aria-label="Logout">Logout</button>
+        </form>
+      </li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="#">Account <span class="material-symbols-outlined">account_circle</span></a></li>
+    </ul>
+  </nav>
+</header>
+<div class="container1">
+  <h1 class="heading1"> My Account </h1>
+  <h1 class="heading2" id="welcome-text"> Welcome back, <span th:text="${fullName}">User</span>!</h1>
+
+  <!-- Buttons for "Ordered" and "Uploaded Course" -->
+  <div class="action-buttons">
+    <button id="ordered-btn">Ordered Course</button>
+    <button id="uploaded-course-btn">Uploaded Course</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 My Mentor. All rights reserved.</p>
+</footer>
+
+<!--javascipt-->
+<script src="/js/my-account.js"></script>
+</body>
+
+</html>

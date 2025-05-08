@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Login - My Mentor</title>
+
+    <!-- site-wide / page styles -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">My Mentor</div>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/contact}">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="login-container">
+    <h2>Login to Your Account</h2>
+
+    <!-- flash / validation error -->
+    <div th:if="${error}" style="color:red">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- === LOGIN FORM === -->
+    <form id="login-form"
+          th:action="@{/login}"
+          th:object="${user}"
+          method="post">
+
+        <div class="form-group">
+            <label for="user-type">User Type:</label>
+            <select id="user-type" name="role" required th:field="*{role}">
+                <option value="" disabled selected>Select User Type</option>
+                <option value="admin"  th:value="'admin'">Admin</option>
+                <option value="worker" th:value="'worker'">Worker</option>
+                <option value="client" th:value="'client'">Client</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-control"
+                   id="email-input"
+                   name="email"
+                   type="email"
+                   required
+                   th:field="*{email}">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-control"
+                   name="password"
+                   type="password"
+                   required
+                   th:field="*{password}">
+        </div>
+
+        <button type="submit" class="btn login-btn">Login</button>
+    </form>
+
+    <p>
+        Not registered? <a th:href="@{/signup}">Sign Up</a>
+    </p>
+</section>
+
+<footer>
+    <p>© 2025 My Mentor. All rights reserved.</p>
+</footer>
+
+<!-- ========= STORE EMAIL IN localStorage ========= -->
+<!--<script src="/js/login.js"></script>-->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form  = document.getElementById('login-form');
+    const email = document.getElementById('email-input');
+
+
+form.addEventListener('submit', async () => {
+  localStorage.setItem('email', email.value.trim());
+  localStorage.setItem('loggedIn', 'true');
+
+  //  Store the user's role (optional: fetch from server or form input)
+  const role = document.querySelector('select[name="role"]').value;
+  localStorage.setItem('role', role);
+  localStorage.setItem('fullName', fullName);
+
+
+});
+
+});
+</script>
+
+</body>
+</html>

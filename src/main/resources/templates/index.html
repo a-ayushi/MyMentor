@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Mentor - Student Support</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/fetchCourseAtHome.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+<style>
+/* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+.input-box {
+    position: relative;
+    height: 45px;
+    max-width: 314PX;
+    width: 100%;
+    background: #fff;
+    margin: -44px 20px;
+    float: right;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.input-box i,
+.input-box .button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.input-box i {
+  left: 20px;
+  font-size: 30px;
+  color: #707070;
+}
+.input-box input {
+    height: 100%;
+    /* width: 100%; */
+    outline: none;
+    font-size: 15PX;
+    font-weight: 400;
+    border: none;
+    padding: 0 3px 0 19px;
+    background-color: transparent;
+}
+.input-box .button {
+	right: 0px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    border: none;
+    padding: 11.5px 10px;
+    border-radius: 6px;
+    background-color: #4070f4;
+    cursor: pointer;
+}
+.course-thumb{
+	height: 55%;
+	margin-bottom: 30px;
+}
+  </style>
+</head>
+<body>
+	<header>
+		<nav id="navbar">
+			<div class="logo">My Mentor</div>
+			<ul class="nav-links" id="nav-links">
+				<li><a href="#" class="active">Home</a></li>
+				<li><a href="login">Login</a></li>
+				<li><a href="signup">SignUp</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+	
+	<section class="hero">
+		<div class="hero-content">
+			<h2>Empowering Students for a Better Future</h2>
+			<p>Choose the best support option for your academic and personal
+				growth.</p>
+				<a href="login" class="btn">Get Started</a>
+			</div>
+		</section>
+<!--		courses at home page-->
+		<section class="courses">
+			<h2>Featured Courses</h2>
+			<div class="input-box">
+				<i class="uil uil-search"></i>
+				<input type="text"  class="searchTerm" placeholder="Search here..." />
+				<button class="button">Search</button>
+			  </div>
+			<div class="courses-scroller" id="courses-scroller">
+				<!-- Courses will load here dynamically -->
+			</div>
+		</section>
+		
+		
+		<main>
+			<section class="options">
+				
+				<div class="option-container">
+					<div class="option-card" data-tilt>
+						<h3 class="category-name">Career Guidance</h3>
+						<p>Get expert advice on choosing the right career path.</p>
+						<button class="select-button" >Select</button>
+					</div>
+					<div class="option-card" data-tilt>
+						<h3 class="category-name">Personal Doubt</h3>
+						<p>Discuss your personal doubts and receive support.</p>
+						<button class="select-button" >Select</button>
+					</div>
+				<div class="option-card" data-tilt>
+					<h3  class="category-name">Psychologist</h3>
+					<p>Speak with a psychologist for mental health support.</p>
+					<button class="select-button" >Select</button>
+					
+				</div>
+				<div class="option-card" data-tilt>
+					<h3  class="category-name">Motivation Tips</h3>
+					<p>Receive strategies and tips to stay motivated for success.</p>
+					<button class="select-button" >Select</button>
+				</div>
+			</div>
+		</section>
+	</main>
+	
+	<footer>
+		<p>© 2025 Student Support Center. All rights reserved.</p>
+	</footer>
+	
+	<!-- Scripts for 3D tilt effect and animations -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+		<script src="/js/auth-navbar.js"></script>
+<script src="/js/search.js"></script>
+	<script src="/js/featuredCourses.js"></script>
+	<script src='https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js'></script>
+	<script>
+		window.addEventListener("DOMContentLoaded", function() {
+          window.AgentInitializer.init({
+            agentRenderURL: "https://agent.jotform.com/01967d36677575e39022c9b84455fbeab336",
+            rootId: "JotformAgent-01967d36677575e39022c9b84455fbeab336",
+            formID: "01967d36677575e39022c9b84455fbeab336",
+            queryParams: ["skipWelcome=1", "maximizable=1"],
+            domain: "https://www.jotform.com",
+            isDraggable: false,
+            background: "linear-gradient(180deg, #6C73A8 0%, #6C73A8 100%)",
+            buttonBackgroundColor: "#0066C3",
+            buttonIconColor: "#FFFFFF",
+            variant: false,
+            customizations: {
+              "greeting": "Yes",
+              "greetingMessage": "Hi! How can I assist you?",
+              "openByDefault": "No",
+              "pulse": "Yes",
+              "position": "right",
+              "autoOpenChatIn": "0"
+            },
+            isVoice: false,
+          });
+
+          // Attach click listeners to select buttons
+          const buttons = document.querySelectorAll('.select-button');
+          buttons.forEach(button => {
+            button.addEventListener('click', function () {
+              const isLoggedIn = localStorage.getItem("email") !== null;
+              console.log("User logged in?", isLoggedIn);
+              if (!isLoggedIn) {
+                window.location.href = "/login";
+                return;
+              }
+            });
+          });
+        }); //  Close DOMContentLoaded function
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up - My Mentor</title>
+<link rel="stylesheet" href="css/login.css">
+
+<style>
+  /* keep it hidden until needed */
+  #worker-speciality-group { display:none; }
+</style>
+</head>
+<body>
+<header>
+	<nav>
+		<div class="logo">My Mentor</div>
+		<ul>
+			<li><a th:href="@{/}">Home</a></li>
+			<li><a th:href="@{/login}">Login</a></li>
+			<li><a th:href="@{/contact}">Contact</a></li>
+		</ul>
+	</nav>
+</header>
+
+<section class="login-container">
+  <h2>Sign up Your Account</h2>
+
+  <form id="login-form"
+        th:action="@{/signup}"
+        th:object="${d}"
+        method="post">
+
+    <!-- ── ROLE SELECT ─────────────────────────────── -->
+    <div class="form-group">
+      <label for="user-type">User Type:</label>
+      <select id="user-type"
+              name="role"
+              required
+              th:field="*{role}">
+        <option value="" disabled selected>Select User Type</option>
+
+        <option value="admin"  th:value="'admin'">Admin</option>
+        <option value="client" th:value="'client'">Client</option>
+
+        <!-- renamed -->
+        <option value="worker" th:value="'worker'">Worker</option>
+      </select>
+    </div>
+
+    <!-- ── WORKER SPECIALITY (initially hidden) ─────── -->
+    <div class="form-group" id="worker-speciality-group">
+      <label for="speciality">Worker Speciality:</label>
+      <select id="speciality"
+              name="speciality"
+              th:field="*{speciality}">
+        <option value="" disabled selected>Select Speciality</option>
+        <option value="career"        th:value="'career guidance'">Career guidance</option>
+        <option value="psychologist"  th:value="'psychologist'">Psychologist</option>
+        <option value="personal"      th:value="'personal doubts'">Personal doubts</option>
+        <option value="motivation"    th:value="'motivation'">Motivational tips</option>
+      </select>
+    </div>
+
+			<div class="form-group">
+				<label class="form-label">Full Name</label> <input
+					class="form-control" name="fullName" type="text" required
+					th:field="*{fullName}">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label">Mobile No.</label> <input
+					class="form-control" name="contactNumber" type="number" required
+					th:field="*{contactNumber}">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label">Email</label> <input class="form-control"
+					name="email" type="email" required th:field="*{email}">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label">Password</label> <input
+					class="form-control" name="password" type="password" required
+					th:field="*{password}">
+			</div>
+
+<!--			<div class="form-group">-->
+<!--				<label class="form-label">Confirm Password</label> <input-->
+<!--					class="form-control" name="confirmPassword" type="password"-->
+<!--					required th:field="*{confirmPassword}">-->
+<!--			</div>-->
+
+			<div class="mb-3">
+				<input type="checkbox" id="terms" required th:field="*{terms}">
+				<label for="terms">I agree to the terms and conditions</label>
+			</div>
+
+			<button type="submit" class="btn login-btn">Sign up</button>
+		</form>
+	</section>
+
+	<footer>
+		<p>© 2025 My Mentor. All rights reserved.</p>
+	</footer>
+<script src="/js/aiAgent.js"></script>
+	<script>
+		// ---- plain-JS toggle --------------------------------
+		const roleSelect  = document.getElementById('user-type');
+		const workerGroup = document.getElementById('worker-speciality-group');
+
+		function toggleWorkerField() {
+		  workerGroup.style.display = roleSelect.value === 'worker' ? 'block' : 'none';
+		}
+
+		roleSelect.addEventListener('change', toggleWorkerField);
+		toggleWorkerField();           // run once on page-load
+	  </script>
+	  
+</body>
+</html>

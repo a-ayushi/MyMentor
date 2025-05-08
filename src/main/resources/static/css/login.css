@@ -1,0 +1,275 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+	background: #0a0a23; /* Deep space navy */
+	color: #e0e0ff; /* Light cosmic text */
+	line-height: 1.6;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* Starry Background */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background:
+		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="50" cy="50" r="1.5" fill="white"/><circle cx="150" cy="200" r="1" fill="white"/><circle cx="300" cy="100" r="2" fill="white"/><circle cx="450" cy="300" r="1.5" fill="white"/><circle cx="600" cy="150" r="1" fill="white"/><circle cx="750" cy="250" r="2" fill="white"/><circle cx="900" cy="50" r="1" fill="white"/></svg>')
+		repeat;
+	opacity: 0.6;
+	animation: twinkle 10s infinite ease-in-out;
+	z-index: -1;
+}
+
+/* Navbar */
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 60px;
+	background: linear-gradient(180deg, rgba(10, 10, 35, 0.95),
+		rgba(10, 10, 35, 0.8));
+	box-shadow: 0 4px 15px rgba(0, 128, 255, 0.2);
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 1000;
+	border-bottom: 1px solid rgba(0, 128, 255, 0.15);
+}
+
+.logo {
+	font-size: 26px;
+	font-weight: 700;
+	color: #00b7eb;
+	text-shadow: 0 0 8px rgba(0, 183, 235, 0.5);
+	letter-spacing: 1px;
+}
+
+nav ul {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+nav ul li {
+	margin-left: 35px;
+}
+
+nav ul li a {
+	text-decoration: none;
+	color: #e0e0ff;
+	font-weight: 500;
+	font-size: 16px;
+	padding: 8px 12px;
+	border-radius: 5px;
+	transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+	color: #00b7eb;
+	background: rgba(0, 128, 255, 0.1);
+	text-shadow: 0 0 5px rgba(0, 183, 235, 0.4);
+}
+
+/* Login Container */
+.login-container {
+	padding: 100px 20px 80px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.login-container h2 {
+	font-size: 36px;
+	color: #e0e0ff;
+	font-weight: 700;
+	margin-bottom: 30px;
+	text-shadow: 0 0 15px rgba(0, 183, 235, 0.6);
+	animation: fadeInUp 1s ease-out;
+}
+
+.login-container form {
+	background: linear-gradient(135deg, rgba(20, 20, 50, 0.9),
+		rgba(10, 10, 35, 0.85));
+	padding: 25px;
+	border-radius: 12px;
+	border: 1px solid rgba(0, 183, 235, 0.25);
+	box-shadow: 0 8px 25px rgba(0, 128, 255, 0.15);
+	width: 100%;
+	max-width: 450px; 
+	animation: fadeInUp 1s ease-out;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	display: block;
+	font-size: 16px;
+	color: #ccd1ff;
+	margin-bottom: 8px;
+	text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.form-group input, .form-group select {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid rgba(0, 183, 235, 0.3);
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.05);
+	color: #e0e0ff;
+	font-size: 16px;
+	outline: none;
+	transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus {
+	border-color: #00b7eb;
+	box-shadow: 0 0 8px rgba(0, 183, 235, 0.4);
+}
+
+.form-group select {
+	appearance: none; /* Remove default arrow */
+	background:
+		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="white" viewBox="0 0 16 16"><path d="M8 12l-6-6h12z"/></svg>')
+		no-repeat right 12px center;
+	background-size: 12px;
+}
+
+.btn.login-btn {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	background: linear-gradient(90deg, #00b7eb, #007acc);
+	border: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: 0 0 10px rgba(0, 183, 235, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s
+		ease;
+}
+
+.btn.login-btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 0 20px rgba(0, 183, 235, 0.6);
+	background: linear-gradient(90deg, #007acc, #00b7eb);
+}
+
+.login-container p {
+	margin-top: 20px;
+	font-size: 14px;
+	color: #ccd1ff;
+}
+
+.login-container p a {
+	color: #00b7eb;
+	text-decoration: none;
+	font-weight: 500;
+	transition: text-shadow 0.3s ease;
+}
+
+.login-container p a:hover {
+	text-shadow: 0 0 5px rgba(0, 183, 235, 0.6);
+}
+
+/* Footer */
+footer {
+	text-align: center;
+	padding: 25px;
+	background: linear-gradient(180deg, rgba(10, 10, 35, 0.95),
+		rgba(10, 10, 35, 1));
+	color: #ccd1ff;
+	font-size: 14px;
+	border-top: 1px solid rgba(0, 183, 235, 0.15);
+	text-shadow: 0 0 5px rgba(0, 183, 235, 0.2);
+}
+
+/* Animations */
+@
+keyframes twinkle { 0%, 100% {
+	opacity: 0.6;
+}
+
+50%
+{
+opacity
+:
+0.3;
+}
+}
+@keyframes fadeInUp {from { opacity:0;
+	transform: translateY(20px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+@media ( max-width : 768px) {
+	nav {
+		padding: 15px 20px;
+	}
+	nav ul li {
+		margin-left: 20px;
+	}
+	.login-container {
+		padding: 120px 20px 60px;
+	}
+	.login-container h2 {
+		font-size: 28px;
+	}
+	.login-container form {
+		padding: 30px;
+	}
+}
+
+
+/* Improve placeholder option style */
+.form-group select option[disabled] {
+	color: #999;
+	background: rgba(255, 255, 255, 0.03);
+	font-style: italic;
+}
+
+/* Style options generally (note: limited browser support) */
+.form-group select option {
+	color: #0a0a23;
+	background-color: #ccd1ff;
+	padding: 10px;
+}
+
+/* Improve hover effect on select box itself */
+.form-group select:hover {
+	border-color: #00b7eb;
+	box-shadow: 0 0 10px rgba(0, 183, 235, 0.4);
+}
+
+/* Add smooth transition to select box */
+.form-group select {
+	transition: all 0.3s ease-in-out;
+}
+
+/* Responsive tweak (optional) */
+@media (max-width: 480px) {
+	.form-group label {
+		font-size: 14px;
+	}
+	.form-group select {
+		font-size: 14px;
+	}
+}

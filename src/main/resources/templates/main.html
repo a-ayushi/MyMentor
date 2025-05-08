@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="${pageTitle}">My Mentor</title>
+<style type="text/css">
+header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #333;
+	z-index: 1000;
+}
+
+.main-content, .dashboard-options {
+	margin-top: 80px;
+	text-align: center; /* Yeh margin navbar ke neeche space banayega */
+}
+</style>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+
+	<link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}">
+</head>
+<body>
+
+	<!-- client page  -->
+
+	<section class="after-login"
+			 th:if="${fullName} != null and ${role} == 'client'">
+		<h1>Welcome to Client Page</h1>
+		<header>
+			<nav>
+				<div class="logo">My Mentor</div>
+				<ul>
+<!--					<li><a th:href="@{/}">Home</a></li>-->
+					<li><a th:href="@{/main}" id="dashboard-btn">Dashboard</a></li>
+					<li><a th:href="@{/contact}">Contact</a></li>
+					<li id="myAccountLink" style="display: none;">
+						<a href="/my-account">My Account
+							<span class="material-symbols-outlined">account_circle</span>
+						</a>
+					</li>
+					<li>
+						<form th:action="@{/logout}" method="post" style="display: inline;">
+							<button type="submit" id="logout" class="btn logout-btn" aria-label="Logout">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="main-content text-center">
+			<h2>Welcome back, <span th:text="${fullName}">User</span>!</h2>
+		</div>
+
+		<div class="dashboard-options">
+			<div class="option-container">
+				<div class="option-card">
+					<h3>Career Guidance</h3>
+					<p>Connect with your assigned mentor and start growing.</p>
+					<a th:href="@{/category/CAREER_GUIDANCE}" class="select-button">Connect</a>
+				</div>
+
+				<div class="option-card">
+					<h3>Personal Doubts</h3>
+					<p>Follow your personalized learning plan step by step.</p>
+					<a th:href="@{/category/PERSONAL_DOUBTS}" class="select-button">Connect</a>
+				</div>
+
+				<div class="option-card">
+					<h3>Psychologist</h3>
+					<p>Share knowledge, solve problems, and grow together.</p>
+					<a th:href="@{/category/PSYCHOLOGIST_CONSULTATION}" class="select-button">Connect</a>
+				</div>
+
+				<div class="option-card">
+					<h3>Motivation Tips</h3>
+					<p>Prioritize your mental health and personal growth journey.</p>
+					<a th:href="@{/category/MOTIVATION_TIPS}" class="select-button">Connect</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!--  worker page  -->
+
+
+	<section class="after-login"
+		th:if="${fullName} != null and ${role} == 'worker'">
+		<h1>Welcome to worker Page</h1>
+		<header>
+			<nav>
+				<div class="logo">My Mentor</div>
+				<ul>
+					<li><a th:href="@{/workerdashboard}">Upload Course</a></li>
+					<li><a th:href="@{/contact}">Contact</a></li>
+					<li>
+						<form th:action="@{/logout}" method="post"
+							style="display: inline;">
+
+							<button type="submit" class="btn logout-btn" aria-label="Logout">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="dashboard-options">
+			<h2>Worker Dashboard</h2>
+			<div class="option-container">
+				<div class="option-card">
+					<h3>Upload Course</h3>
+					<p>Connect with your assigned client and start growing.</p>
+					<a th:href="@{/workerdashboard}" class="select-button">Connect</a>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</section>
+
+
+	<section class="after-login"
+		th:if="${fullName} != null and ${role} == 'admin'">
+		<h1>Welcome to admin Page</h1>
+
+		<header>
+			<nav>
+				<div class="logo">My Mentor</div>
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/main}">Dashboard</a></li>
+					<li><a th:href="@{/contact}">Contact</a></li>
+					<li>
+						<form th:action="@{/logout}" method="post"
+							style="display: inline;">
+
+							<button type="submit" class="btn logout-btn" aria-label="Logout">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+
+
+	</section>
+	<footer>
+		<p>&copy; 2025 My Mentor. All rights reserved.</p>
+	</footer>
+<script src="/js/my-account.js"></script>
+	<script>
+const cursor = document.createElement('div');
+  const logout= document.getElementById('logout')
+
+cursor.classList.add('cursor');
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+});
+
+document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+		document.addEventListener("DOMContentLoaded", function () {
+    const email = localStorage.getItem("email"); // or "userEmail", adjust based on your key
+    const myAccountLink = document.getElementById("myAccountLink");
+
+    if (email && email.trim() !== "") {
+        myAccountLink.style.display = "inline-block"; // Show the My Account link
+    }
+
+    if (logout) {
+  logout.addEventListener('click', () => {
+    localStorage.clear();
+  });
+}
+});
+</script>
+
+</body>
+</html>

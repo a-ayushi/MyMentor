@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <style>
+        .dashboard-container {
+        text-align: center;
+        padding: 20px;
+        padding-bottom: 50px;
+        margin-top: 80px; /* Space for fixed header */
+    }
+    
+    .dashboard-container h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .dashboard-container p {
+        font-size: 16px;
+        color: #666;
+    }
+    
+    /* Dashboard Boxes */
+    .dashboard-boxes {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    
+   
+.dashboard-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 76px 10px 20px 10px;
+   width: 400px;
+    height: 234px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+    
+    .dashboard-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .dashboard-box h3 {
+        margin-bottom: 10px;
+        font-size: 25px;
+        color: #333;
+    }
+    
+    .dashboard-box p {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007bff;
+    }
+        #user-list-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+#user-list-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+#user-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+#user-list-table th,
+#user-list-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+      color: #2c3e50;
+}
+
+#user-list-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+#user-list-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#user-list-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+    </style>
+	<header>
+			<nav>
+				<div class="logo">My Mentor</div>
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/main}">Dashboard</a></li>
+					<li><a th:href="@{/contact}">Contact</a></li>
+					<li>
+						<form th:action="@{/logout}" method="post"
+							style="display: inline;">
+
+							<button type="submit" class="btn logout-btn" aria-label="Logout " id="logout">Logout</button>
+						</form>
+					</li>
+				</ul>
+
+
+			</nav>
+		</header>
+
+        <section class="dashboard-container">
+            <h1>Admin Dashboard</h1>
+        
+            <div class="dashboard-boxes">
+                <!-- Box for Clients -->
+                <div class="dashboard-box" id="client-box">
+                    <h3>Total Clients</h3>
+                    <p id="client-count">Loading...</p>
+                </div>
+        
+                <!-- Box for Workers -->
+                <div class="dashboard-box" id="worker-box">
+                    <h3>Total Workers</h3>
+                    <p id="worker-count">Loading...</p>
+                </div>
+        
+                <!-- Box for Total Purchases -->
+                <div class="dashboard-box">
+                    <h3>Total Purchases</h3>
+                    <p id="total-purchases">Loading...</p>
+                </div>
+        
+                <!-- Box for Total Amount -->
+                <div class="dashboard-box">
+                    <h3>Total Amount</h3>
+                    <p id="total-amount">Loading...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Table for displaying client list -->
+        <section id="user-list-section" style="display:none;margin-top:20px;">
+            <h2 id="user-list-title"></h2>
+            <table id="user-list-table" border="1" style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr>
+                  <th>SNO.</th><th>Full Name</th><th>Email</th><th>ContactNumber</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </section>
+          
+          <script>
+          document.addEventListener('DOMContentLoaded', () => {
+          
+            /* ---------- one‑off counts ---------- */
+            fetch('/count-by-role?role=client')
+              .then(r => r.json())
+              .then(d => document.getElementById('client-count').textContent = d.count ?? 0)
+              .catch(() => document.getElementById('client-count').textContent = 'Error');
+          
+            fetch('/count-by-role?role=worker')
+              .then(r => r.json())
+              .then(d => document.getElementById('worker-count').textContent = d.count ?? 0)
+              .catch(() => document.getElementById('worker-count').textContent = 'Error');
+          
+            fetch('/total-purchases')
+              .then(r => r.json())
+              .then(d => {
+                document.getElementById('total-purchases').textContent = d.totalPurchases ?? 0;
+                document.getElementById('total-amount').textContent   = `₹${(d.totalAmount ?? 0).toFixed(2)}`;
+              })
+              .catch(() => {
+                document.getElementById('total-purchases').textContent =
+                document.getElementById('total-amount').textContent   = 'Error';
+              });
+          
+            /* ---------- helper to paint the table ---------- */
+            function showUsers(role) {
+              fetch(`/get-users-by-role?role=${role}`)
+                .then(r => r.json())
+                .then(list => {
+                  const tbody = document.querySelector('#user-list-table tbody');
+                  tbody.innerHTML = '';                       // clear previous rows
+                  list.forEach(u => {
+                    tbody.insertAdjacentHTML('beforeend', `
+                      <tr>
+                        <td>${u.id}</td><td>${u.fullName}</td>
+                        <td>${u.email}</td><td>${u.contactNumber}</td>
+                      </tr>`);
+                  });
+                  document.getElementById('user-list-title').textContent =
+                    role === 'client' ? 'Client List' : 'Worker List';
+                  document.getElementById('user-list-section').style.display = 'block';
+                })
+                .catch(err => console.error('Fetching', role, 'failed', err));
+            }
+          
+            /* ---------- click listeners ---------- */
+            document.getElementById('client-box').addEventListener('click', () => showUsers('client'));
+            document.getElementById('worker-box').addEventListener('click', ()  => showUsers('worker'));
+            const logoutButton = document.getElementById('logout');
+            
+          });
+        const logoutButton = document.getElementById('logout');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                localStorage.clear();
+            });
+        }
+          </script>
+</body>
+</html>
